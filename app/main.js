@@ -36,10 +36,12 @@ switch (process.platform) {
     transparent = true;
     break;
   case "linux":
-  case "win32":
     trayIconPath = join(__dirname, "/resources/logo_32.png");
     // fix transparent window not working in linux bug
     app.disableHardwareAcceleration();
+    break;
+  case "win32":
+    trayIconPath = join(__dirname, "/resources/logo_32.png");
     break;
   default:
     break;
@@ -294,6 +296,7 @@ function createWindow() {
       "*://*.kuwo.cn/*",
       "*://*.bilibili.com/*",
       "*://*.bilivideo.com/*",
+      "*://*.bilivideo.cn/*",
       "*://*.migu.cn/*",
       "*://*.githubusercontent.com/*",
       "https://listen1.github.io/listen1/callback.html?code=*",
@@ -533,6 +536,12 @@ function hack_referer_header(details) {
     referer_value = "https://www.bilibili.com/";
     replace_origin = false;
     add_origin = false;
+  }
+  if (details.url.includes('.bilivideo.cn')) {
+    referer_value = 'https://www.bilibili.com/';
+    origin_value = 'https://www.bilibili.com/';
+    add_referer = true;
+    add_origin = true;
   }
   if (details.url.includes(".migu.cn")) {
     referer_value = "http://music.migu.cn/v3/music/player/audio?from=migu";
